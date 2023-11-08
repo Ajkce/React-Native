@@ -13,9 +13,11 @@ import LittleLemonHeader from "./components/LittleLemonHeader";
 import { LittleLemonFooter } from "./components/LittleLemonFooter";
 import { LittleLemonBody } from "./components/LittleLemonBody";
 import { useState } from "react";
+import { GoalItem } from "./components/GoalItem";
+import { GoalInput } from "./components/GoalInput";
 
 export default function App() {
-  const [inputValue, setInputValue] = useState("");
+  const [openModal, setIsModelOpen] = useState(false);
   const [courseGoals, setCourseGoals] = useState([
     "First Goal",
     "Second Goal",
@@ -41,31 +43,47 @@ export default function App() {
     "First Goal",
     "First Goal",
   ]);
-  const goalInputHandler = (enteredText) => {
-    setInputValue(enteredText);
+
+  const addGoalHandler = (enteredGoalText) => {
+    setCourseGoals((goals) => [...goals, enteredGoalText]);
+    modalHandler();
   };
 
-  const addGoalHandler = () => {
-    setCourseGoals((goals) => [...goals, inputValue]);
+  const deleteGoalItem = (id) => {
+    setCourseGoals((courseGoals) =>
+      courseGoals.filter((item, index) => index !== id)
+    );
   };
+
+  const modalHandler = () => {
+    setIsModelOpen((prev) => !prev);
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          onChangeText={goalInputHandler}
-          style={styles.input}
-          placeholder="Your Course goal!"
-        ></TextInput>
-        <Button onPress={addGoalHandler} title="Add Goals"></Button>
+      <View style={styles.buttonView}>
+        <Button
+          title="Add new goal"
+          color="green"
+          onPress={modalHandler}
+        ></Button>
       </View>
+
+      <GoalInput
+        addGoalHandler={addGoalHandler}
+        isModalOpen={openModal}
+        modalHandler={modalHandler}
+      ></GoalInput>
+
       <View style={styles.list}>
         <FlatList
           alwaysBounceVertical={false}
           data={courseGoals}
           renderItem={(itemData) => (
-            <View key={itemData.index} style={styles.goalItem}>
-              <Text style={styles.goalText}>{itemData.item}</Text>
-            </View>
+            <GoalItem
+              itemData={itemData}
+              deleteItem={deleteGoalItem}
+            ></GoalItem>
           )}
         />
       </View>
@@ -108,5 +126,12 @@ const styles = StyleSheet.create({
   },
   goalText: {
     color: "white",
+  },
+  buttonView: {
+    paddingTop: 30,
+    paddingBottom: 30,
+    borderBottomWidth: 1,
+    marginBottom: 20,
+    borderBottomColor: "#cccccc",
   },
 });
