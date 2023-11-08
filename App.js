@@ -60,34 +60,37 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.buttonView}>
-        <Button
-          title="Add new goal"
-          color="green"
-          onPress={modalHandler}
-        ></Button>
-      </View>
+    <>
+      <StatusBar style="light"></StatusBar>
+      <View style={styles.container}>
+        <View style={styles.buttonView}>
+          <Button
+            title="Add new goal"
+            color="green"
+            onPress={modalHandler}
+          ></Button>
+        </View>
 
-      <GoalInput
-        addGoalHandler={addGoalHandler}
-        isModalOpen={openModal}
-        modalHandler={modalHandler}
-      ></GoalInput>
+        <GoalInput
+          addGoalHandler={addGoalHandler}
+          isModalOpen={openModal}
+          modalHandler={modalHandler}
+        ></GoalInput>
 
-      <View style={styles.list}>
-        <FlatList
-          alwaysBounceVertical={false}
-          data={courseGoals}
-          renderItem={(itemData) => (
-            <GoalItem
-              itemData={itemData}
-              deleteItem={deleteGoalItem}
-            ></GoalItem>
-          )}
-        />
+        <View style={styles.list}>
+          <FlatList
+            alwaysBounceVertical={false}
+            data={courseGoals}
+            renderItem={(itemData) => (
+              <GoalItem
+                itemData={itemData}
+                deleteItem={deleteGoalItem}
+              ></GoalItem>
+            )}
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
