@@ -1,4 +1,4 @@
-import Category from "../models/category";
+import Category from "../models/Category";
 import Meal from "../models/meal";
 
 export const CATEGORIES = [
