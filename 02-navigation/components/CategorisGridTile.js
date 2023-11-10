@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View, Platform } from "react-native";
 import React from "react";
 
-export default function CategorisGridTile({ title, color }) {
+export default function CategorisGridTile({ title, color, onPress }) {
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
       <Pressable
@@ -10,6 +10,7 @@ export default function CategorisGridTile({ title, color }) {
           Platform.OS === "ios" && pressed ? styles.btnPressed : null,
         ]}
         android_ripple={{ color: "#ccc" }}
+        onPress={onPress}
       >
         <View style={styles.innerContainer}>
           <Text style={styles.title}>{title}</Text>

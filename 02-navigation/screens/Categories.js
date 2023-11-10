@@ -3,16 +3,21 @@ import React from "react";
 import { CATEGORIES } from "../data/dummy-data";
 import CategorisGridTile from "../components/CategorisGridTile";
 
-function renderCategoryItem(itemData) {
-  return (
-    <CategorisGridTile
-      title={itemData.item.title}
-      color={itemData.item.color}
-    ></CategorisGridTile>
-  );
-}
-
-export default function Categories() {
+export default function Categories({ navigation }) {
+  function renderCategoryItem(itemData) {
+    const pressHandler = () => {
+      navigation.navigate("Meals", {
+        categoryId: itemData.item.id,
+      });
+    };
+    return (
+      <CategorisGridTile
+        title={itemData.item.title}
+        color={itemData.item.color}
+        onPress={pressHandler}
+      ></CategorisGridTile>
+    );
+  }
   return (
     <FlatList
       data={CATEGORIES}
