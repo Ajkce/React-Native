@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import Categories from "./screens/Categories";
@@ -6,7 +7,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MealsOverView from "./screens/MealsOverView";
 import MealsDetails from "./screens/MealsDetails";
 
+
 const Stack = createNativeStackNavigator();
+
+const DrawerNavigator = () => {
+  return;
+};
 
 export default function App() {
   return (
@@ -38,7 +44,6 @@ export default function App() {
           <Stack.Screen
             name="MealDetails"
             component={MealsDetails}
-            
           ></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
