@@ -11,8 +11,9 @@ import List from "../components/MealDetail/List";
 import Subtitle from "../components/MealDetail/Subtitle";
 import MealDetails from "../components/MealDetails";
 import { MEALS } from "../data/dummy-data";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import IconButton from "../components/IconButton";
 
 function MealDetailScreen({ route }) {
   const mealId = route.params.mealId;
@@ -20,10 +21,22 @@ function MealDetailScreen({ route }) {
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
   const navigation = useNavigation();
+
+  const [color, setColor] = useState("white");
+  const addtoFav = () => {
+    setColor("red");
+    console.log("Pressed");
+  };
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
-        return <Button title="click me"></Button>;
+        return (
+          <IconButton
+            onPress={addtoFav}
+            color={color}
+            icon="heart"
+          ></IconButton>
+        );
       },
     });
   });
