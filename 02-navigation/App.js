@@ -6,12 +6,25 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MealsOverView from "./screens/MealsOverView";
 import MealsDetails from "./screens/MealsDetails";
-
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import Favourites from "./screens/Favourites";
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
-  return;
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#413733" },
+        headerTintColor: "white",
+        sceneContainerStyle: { backgroundColor: "#665e58" },
+      }}
+    >
+      <Drawer.Screen name="Categories" component={Categories}></Drawer.Screen>
+      <Drawer.Screen name="Favourites" component={Favourites}></Drawer.Screen>
+    </Drawer.Navigator>
+  );
 };
 
 export default function App() {
@@ -28,9 +41,9 @@ export default function App() {
         >
           <Stack.Screen
             name="Home"
-            component={Categories}
+            component={DrawerNavigator}
             options={{
-              title: "Meals Categories",
+              headerShown: false,
             }}
           ></Stack.Screen>
           <Stack.Screen

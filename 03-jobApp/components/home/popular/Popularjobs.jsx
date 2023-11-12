@@ -7,8 +7,13 @@ import { ActivityIndicator } from "react-native";
 import { COLORS, SIZES } from "../../../constants";
 import { FlatList } from "react-native";
 import PopularJobCard from "../../common/cards/popular/PopularJobCard";
+import { useFetch } from "../../../hook/useFetchHook.js";
 
 const Popularjobs = () => {
+  const { data } = useFetch("search", {
+    query: "React developer",
+    num_pages: 1,
+  });
   const isLoading = false;
   const error = false;
   return (
