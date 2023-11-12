@@ -11,35 +11,45 @@ import List from "../components/MealDetail/List";
 import Subtitle from "../components/MealDetail/Subtitle";
 import MealDetails from "../components/MealDetails";
 import { MEALS } from "../data/dummy-data";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import IconButton from "../components/IconButton";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToFavourites,
+  removeFavourites,
+} from "../store/redux/favourite/favouriteSlice";
 
 function MealDetailScreen({ route }) {
-  const mealId = route.params.mealId;
-
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
-
+  const { favItems } = useSelector((state) => state.favourite);
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const [color, setColor] = useState("white");
+  const mealId = route.params.mealId;
+  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  const isMealFavourite = favItems.includes(mealId);
+
   const addtoFav = () => {
-    setColor("red");
-    console.log("Pressed");
+    if (isMealFavourite) {
+      dispatch(removeFavourites({ id: mealId }));
+    } else {
+      dispatch(addToFavourites({ id: mealId }));
+    }
   };
+  console.log(favItems);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
           <IconButton
             onPress={addtoFav}
-            color={color}
+            color={isMealFavourite ? "red" : "white"}
             icon="heart"
           ></IconButton>
         );
       },
     });
-  });
+  }, [navigation, addtoFav, isMealFavourite]);
 
   return (
     <ScrollView style={styles.rootContainer}>
