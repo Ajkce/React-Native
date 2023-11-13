@@ -8,6 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { GlobalStyles } from "./styles/colors";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ManageExpenses from "./screen/ManageExpenses";
+import AddIcon from "./components/ui/AddIcon";
 
 const Tab = createBottomTabNavigator();
 const Screen = createNativeStackNavigator();
@@ -16,9 +17,7 @@ const ExpenseOverview = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerRight: ({ tintColor }) => (
-          <Ionicons color={tintColor} size={28} name="add"></Ionicons>
-        ),
+        headerRight: ({ tintColor }) => <AddIcon color={tintColor}></AddIcon>,
         headerStyle: { backgroundColor: GlobalStyles.colors.primary400 },
         headerBackgroundContainerStyle: {
           backgroundColor: GlobalStyles.colors.primary800,
@@ -58,7 +57,15 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="light" />
-      <Screen.Navigator>
+      <Screen.Navigator
+        screenOptions={{
+          headerStyle: { backgroundColor: GlobalStyles.colors.primary400 },
+          headerBackgroundContainerStyle: {
+            backgroundColor: GlobalStyles.colors.primary800,
+          },
+          headerTintColor: "white",
+        }}
+      >
         <Screen.Screen
           name="Expenses"
           component={ExpenseOverview}
