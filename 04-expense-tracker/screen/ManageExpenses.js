@@ -1,15 +1,19 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { GlobalStyles } from "../styles/colors";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
+import { ExpenseContext } from "../store/expense-context";
 
 export default function ManageExpenses() {
   const navigation = useNavigation();
   const route = useRoute();
   const expenseId = route.params?.expenseId;
+  console.log(expenseId);
   const isEditing = !!expenseId;
+  const { addExpense, deleteExpense, updateExpense } =
+    useContext(ExpenseContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -17,32 +21,46 @@ export default function ManageExpenses() {
     });
   }, [navigation, isEditing]);
 
-  const cencelExpense = () => {
+  const cencelExpenses = () => {
     navigation.goBack();
   };
-  const editExpense = () => {
+  const editExpenses = () => {
+    if (isEditing) {
+      updateExpense(expenseId, {
+        description: "Nex expense",
+        amount: 20.99,
+        date: new Date(),
+      });
+    } else {
+      addExpense({
+        description: "Nex expense",
+        amount: 20.99,
+        date: new Date(),
+      });
+    }
     navigation.goBack();
   };
-  const deleteExpense = () => {
+  const deleteExpenses = () => {
+    deleteExpense(expenseId);
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.btn}>
-        <Pressable onPress={cencelExpense}>
+        <Pressable onPress={cencelExpenses}>
           <View style={styles.cancelbutton}>
             <Text style={styles.cancel}>Cancel</Text>
           </View>
         </Pressable>
-        <Pressable onPress={editExpense}>
+        <Pressable onPress={editExpenses}>
           <View style={styles.updatebutton}>
             <Text style={styles.update}>Update</Text>
           </View>
         </Pressable>
       </View>
       <View style={styles.trashBtn}>
-        <Pressable onPress={deleteExpense}>
+        <Pressable onPress={deleteExpenses}>
           <Ionicons
             color={GlobalStyles.colors.error500}
             size={36}

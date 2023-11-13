@@ -9,6 +9,7 @@ import { GlobalStyles } from "./styles/colors";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ManageExpenses from "./screen/ManageExpenses";
 import AddIcon from "./components/ui/AddIcon";
+import ExpensesContextProvider from "./store/expense-context";
 
 const Tab = createBottomTabNavigator();
 const Screen = createNativeStackNavigator();
@@ -55,30 +56,32 @@ const ExpenseOverview = () => {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StatusBar style="light" />
-      <Screen.Navigator
-        screenOptions={{
-          headerStyle: { backgroundColor: GlobalStyles.colors.primary400 },
-          headerBackgroundContainerStyle: {
-            backgroundColor: GlobalStyles.colors.primary800,
-          },
-          headerTintColor: "white",
-        }}
-      >
-        <Screen.Screen
-          name="Expenses"
-          component={ExpenseOverview}
-          options={{
-            headerShown: false,
+    <ExpensesContextProvider>
+      <NavigationContainer>
+        <StatusBar style="light" />
+        <Screen.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: GlobalStyles.colors.primary400 },
+            headerBackgroundContainerStyle: {
+              backgroundColor: GlobalStyles.colors.primary800,
+            },
+            headerTintColor: "white",
           }}
-        ></Screen.Screen>
-        <Screen.Screen
-          name="Edit Expense"
-          component={ManageExpenses}
-        ></Screen.Screen>
-      </Screen.Navigator>
-    </NavigationContainer>
+        >
+          <Screen.Screen
+            name="Expenses"
+            component={ExpenseOverview}
+            options={{
+              headerShown: false,
+            }}
+          ></Screen.Screen>
+          <Screen.Screen
+            name="Edit Expense"
+            component={ManageExpenses}
+          ></Screen.Screen>
+        </Screen.Navigator>
+      </NavigationContainer>
+    </ExpensesContextProvider>
   );
 }
 
