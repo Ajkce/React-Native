@@ -1,19 +1,22 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useContext, useLayoutEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { GlobalStyles } from "../styles/colors";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { ExpenseContext } from "../store/expense-context";
+import ExpenseForm from "../components/ManageExpenses/ExpenseForm";
 
 export default function ManageExpenses() {
   const navigation = useNavigation();
   const route = useRoute();
   const expenseId = route.params?.expenseId;
-  console.log(expenseId);
+
   const isEditing = !!expenseId;
-  const { addExpense, deleteExpense, updateExpense } =
+  const { addExpense, deleteExpense, updateExpense, expenses } =
     useContext(ExpenseContext);
+
+  const selectedExpense = expenses.find((expense) => expense.id === expenseId);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -24,19 +27,11 @@ export default function ManageExpenses() {
   const cencelExpenses = () => {
     navigation.goBack();
   };
-  const editExpenses = () => {
+  const editExpenses = (expenseData) => {
     if (isEditing) {
-      updateExpense(expenseId, {
-        description: "Nex expense",
-        amount: 20.99,
-        date: new Date(),
-      });
+      updateExpense(expenseId, expenseData);
     } else {
-      addExpense({
-        description: "Nex expense",
-        amount: 20.99,
-        date: new Date(),
-      });
+      addExpense(expenseData);
     }
     navigation.goBack();
   };
@@ -47,27 +42,23 @@ export default function ManageExpenses() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.btn}>
-        <Pressable onPress={cencelExpenses}>
-          <View style={styles.cancelbutton}>
-            <Text style={styles.cancel}>Cancel</Text>
-          </View>
-        </Pressable>
-        <Pressable onPress={editExpenses}>
-          <View style={styles.updatebutton}>
-            <Text style={styles.update}>Update</Text>
-          </View>
-        </Pressable>
-      </View>
-      <View style={styles.trashBtn}>
-        <Pressable onPress={deleteExpenses}>
-          <Ionicons
-            color={GlobalStyles.colors.error500}
-            size={36}
-            name="trash"
-          ></Ionicons>
-        </Pressable>
-      </View>
+      <ExpenseForm
+        onCancel={cencelExpenses}
+        onSubmit={editExpenses}
+        defaultValues={selectedExpense}
+      ></ExpenseForm>
+
+      {isEditing && (
+        <View style={styles.trashBtn}>
+          <Pressable onPress={deleteExpenses}>
+            <Ionicons
+              color={GlobalStyles.colors.error500}
+              size={36}
+              name="trash"
+            ></Ionicons>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 }
