@@ -11,5 +11,19 @@ export const createUser = async ({ email, password }) => {
       returnSecureToken: true,
     }
   );
-  
+  const token = response.data.idToken;
+  return token;
+};
+export const signInUser = async ({ email, password }) => {
+  const response = await axios.post(
+    "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
+      api_key,
+    {
+      email,
+      password,
+      returnSecureToken: true,
+    }
+  );
+  const token = response.data.idToken;
+  return token;
 };
