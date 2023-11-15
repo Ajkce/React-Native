@@ -7,7 +7,7 @@ import {
 } from "expo-image-picker";
 import { Colors } from "../../constants/colors";
 
-export default function ImagePicker() {
+export default function ImagePicker({ onTakeImage }) {
   const [status, requestPermission] = useCameraPermissions();
   const [imageUrl, setImageUrl] = useState();
 
@@ -36,8 +36,9 @@ export default function ImagePicker() {
       aspect: [4, 3],
       quality: 1,
     });
-    setImageUrl(result.uri);
     console.log(result);
+    setImageUrl(result.assets.uri);
+    onTakeImage(result.assets.uri);
   };
   let imagePreview = <Text>No image taken yer</Text>;
   if (imageUrl) {

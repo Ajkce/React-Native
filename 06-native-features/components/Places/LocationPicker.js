@@ -1,10 +1,49 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { OutlinedButton } from "../UI/OutlinedButton";
 import { Colors } from "../../constants/colors";
+import {
+  PermissionStatus,
+  getCurrentPositionAsync,
+  requestForegroundPermissionsAsync,
+} from "expo-location";
 
-export default function LocationPicker() {
-  const getLocationHandler = () => {};
+export default function LocationPicker({ onPickLocation }) {
+  const [pickedlocation, setLocation] = useState();
+  //   const verifyPermission = async () => {
+  //     if (status.status === PermissionStatus.UNDETERMINED) {
+  //       const premissionResponse = await requestPermission;
+
+  //       return premissionResponse.granted;
+  //     }
+  //     if (status.status === PermissionStatus.DENIED) {
+  //       Alert.alert(
+  //         "Insuffecient permission",
+  //         "You need to grant location permission to use this app"
+  //       );
+  //       return false;
+  //     }
+  //     return true;
+  //   };
+
+  const getLocationHandler = async () => {
+    let { status } = await requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert(
+        "Insuffecient permission",
+        "You need to grant location permission to use this app"
+      );
+      return;
+    }
+    const location = await getCurrentPositionAsync();
+    setLocation({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    });
+  };
+  useEffect(() => {
+    onPickLocation(pickedlocation);
+  }, [pickedlocation, onPickLocation]);
   const openMapHandler = () => {};
   return (
     <View>
