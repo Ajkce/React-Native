@@ -37,8 +37,8 @@ export default function LocationPicker({ onPickLocation }) {
     }
     const location = await getCurrentPositionAsync();
     setLocation({
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
+      lat: location.coords.latitude,
+      lng: location.coords.longitude,
     });
   };
   useEffect(() => {

@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     borderBottomLeftRadius: 4,
-    borderTopRadius: 4,
+    borderTopLeftRadius: 4,
     height: 100,
   },
   infoStyle: {

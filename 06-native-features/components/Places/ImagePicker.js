@@ -37,8 +37,8 @@ export default function ImagePicker({ onTakeImage }) {
       quality: 1,
     });
     console.log(result);
-    setImageUrl(result.assets.uri);
-    onTakeImage(result.assets.uri);
+    setImageUrl(result.assets[0].uri);
+    onTakeImage(result.assets[0].uri);
   };
   let imagePreview = <Text>No image taken yer</Text>;
   if (imageUrl) {
